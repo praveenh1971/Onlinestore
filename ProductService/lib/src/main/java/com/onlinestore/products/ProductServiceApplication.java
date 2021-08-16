@@ -3,8 +3,15 @@
  */
 package com.onlinestore.products;
 
+import io.vertx.core.Vertx;
+
 public class ProductServiceApplication {
 	
 	public static void main(String[] args) {
+			
+		Vertx vrts = Vertx.vertx();
+		vrts.deployVerticle(new ProductService(3000));
+		while(true);
 	}
+	
 }
