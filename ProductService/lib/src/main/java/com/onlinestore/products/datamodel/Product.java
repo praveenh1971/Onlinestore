@@ -1,23 +1,29 @@
 package com.onlinestore.products.datamodel;
 
+import io.vertx.core.json.JsonObject;
+
 /**
  * 
  * @author sanjiv
  *
  */
 public class Product {
-
-	private long id;
-	private String name;
-	private String description;
-	private double price;
-
-	public Product(int id, String name, String description, double price) {
+	public Product(long id, String name, String description, double price) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 	}
+
+	/*
+	 * auto-generated id.
+	 */
+	private long id;
+	
+	private String name;
+	private String description;
+	private double price;
 
 	/**
 	 * @return the id
@@ -78,5 +84,12 @@ public class Product {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
+	public JsonObject toJSon() {
+		JsonObject ob =  new JsonObject();
+		ob.put("id", getId());
+		ob.put("name", getName());
+		ob.put("price", getPrice());
+		ob.put("description", getDescription());
+		return ob;
+	}
 }
