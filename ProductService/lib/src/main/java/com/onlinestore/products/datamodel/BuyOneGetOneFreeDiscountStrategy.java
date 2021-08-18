@@ -1,6 +1,7 @@
 package com.onlinestore.products.datamodel;
 
 import java.util.List;
+import java.util.Map;
 
 public class BuyOneGetOneFreeDiscountStrategy extends DiscountStrategy {
 
@@ -42,6 +43,12 @@ public class BuyOneGetOneFreeDiscountStrategy extends DiscountStrategy {
 		}
 
 		return 0;
+	}
+
+	@Override
+	public void setParameters(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
