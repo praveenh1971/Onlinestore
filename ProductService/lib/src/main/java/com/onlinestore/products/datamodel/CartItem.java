@@ -1,4 +1,4 @@
-package com.onlinestore.order.datamodel;
+package com.onlinestore.products.datamodel;
 
 public class CartItem {
 

@@ -1,5 +1,9 @@
 package com.onlinestore.products.datamodel;
 
-public class DiscountStrategy {
+import java.util.List;
+
+public abstract class DiscountStrategy {
+
+	public abstract double applyDiscount(List<CartItem> item);
 
 }

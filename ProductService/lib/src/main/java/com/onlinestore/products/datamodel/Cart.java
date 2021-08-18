@@ -1,4 +1,4 @@
-package com.onlinestore.order.datamodel;
+package com.onlinestore.products.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;

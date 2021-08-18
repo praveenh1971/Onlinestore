@@ -10,7 +10,7 @@ public class ProductServiceApplication {
 	public static void main(String[] args) {
 			
 		Vertx vrts = Vertx.vertx();
-		vrts.deployVerticle(new ProductService(3000));
+		vrts.deployVerticle(new ProductService(3001));
 		while(true);
 	}
 	

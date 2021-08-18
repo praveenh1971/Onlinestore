@@ -1,4 +1,4 @@
-package com.onlinestore.order.datamodel;
+package com.onlinestore.products.datamodel;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,15 +24,17 @@ public class BuyOneGetOneFiftyDiscountStrategy extends DiscountStrategy {
 		});
 		
 		
-		for(int i=0;i< int(item.size()/2); i++){
-			
-		}
+//		for(int i=0;i< int(item.size()/2); i++){
+//			
+//		}
+//		
+//		
+//		
+//		for (CartItem purchase : item) {
+//			total += purchase.getPrice();
+//		}
 		
-		
-		
-		for (CartItem purchase : item) {
-			total += purchase.getPrice();
-		}
+		return 0;
 	}
 
 }
