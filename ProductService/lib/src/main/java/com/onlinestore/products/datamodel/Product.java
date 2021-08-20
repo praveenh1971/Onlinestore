@@ -92,4 +92,9 @@ public class Product {
 		ob.put("description", getDescription());
 		return ob;
 	}
+
+	public static Product fromJson(JsonObject ob) {
+	
+		return new Product(ob.getInteger("id"), ob.getString("name"),ob.getString("description"), ob.getDouble("price"));
+	}
 }

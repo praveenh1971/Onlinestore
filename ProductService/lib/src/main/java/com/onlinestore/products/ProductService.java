@@ -30,14 +30,29 @@ public class ProductService extends AbstractVerticle {
 		repo = new ProductRepository();
 		discountRepo = new DiscountRepository();
 		Router router = Router.router(vertx);
-		router.route(HttpMethod.GET, "/productservice/products").handler((requestctx) -> {
+		router.get( "/productservice/products").handler((requestctx) -> {
 			getAllProducts(requestctx);
 		});
-		router.route(HttpMethod.POST, "/productservice/products").handler(requestctx -> {
-			addProduct(requestctx);
+		router.put("/productservice/products/add").handler(requestctx -> {
+			requestctx.request().bodyHandler(h->{
+			   JsonObject jsonObject = 	h.toJsonObject();
+			   if (jsonObject != null){
+				   if (addProduct(jsonObject)){
+					   requestctx.response().setStatusCode(200).end();
+				   }else{
+					   requestctx.response().setStatusCode(400).end();
+				   }
+			   }else{
+				   requestctx.response().setStatusCode(400).end();
+			   }
+			});
+	
 		});
 		router.delete("/productservice/products/:id").handler(requestctx -> {
-			deleteProduct(requestctx);
+			if (deleteProduct(requestctx))
+				requestctx.response().setStatusCode(200).end();
+			else
+				requestctx.response().setStatusMessage("Could not delete the product").setStatusCode(400).end();
 		});
 		router.route("/productservice/products/:id").handler(requestctx -> {
 			getProduct(requestctx);
@@ -46,7 +61,7 @@ public class ProductService extends AbstractVerticle {
 		vertx.createHttpServer().requestHandler(router).listen(port, handler -> {
 			if (handler.succeeded()) {
 				startPromise.complete();
-				System.out.println("HTTP Server Started");
+			
 			} else {
 				startPromise.fail("Unable to create HTTP Server at port " + port);
 			}
@@ -74,14 +89,15 @@ public class ProductService extends AbstractVerticle {
 
 	}
 
-	private void deleteProduct(RoutingContext requestctx) {
+	private boolean deleteProduct(RoutingContext requestctx) {
 		String id = requestctx.request().getParam("id");
 		try {
 			long productid = Integer.parseInt(id);
-			repo.deleteProduct(productid);
+			return repo.deleteProduct(productid);
 		} catch (NumberFormatException e) {
 			requestctx.response().setStatusCode(400).end();
 		}
+		return false;
 
 	}
 
@@ -90,11 +106,18 @@ public class ProductService extends AbstractVerticle {
 		rc.response().putHeader("content-type", "application/json; charset=utf-8").end(Json.encodePrettily(produces));
 	}
 
-	private void addProduct(RoutingContext rc) {
-		Product product = rc.getBodyAsJson().mapTo(Product.class);
-		repo.save(product);
-		rc.response().setStatusCode(201).putHeader("content-type", "application/json; charset=utf-8")
-				.end(Json.encodePrettily(product));
+	private boolean addProduct(JsonObject ob) {
+
+		if (ob != null) {
+			Product product = Product.fromJson(ob);
+			if (product != null) {
+				repo.save(product);
+				return true;
+			}
+			
+		}
+		return false;
+
 	}
 
 	private void addDiscount(RoutingContext rc) {
